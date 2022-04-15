@@ -63,10 +63,12 @@ const Exchange = () => {
   };
 
   return (
-    <div className="my-8">
-      <DataTable bid={bid} ask={ask} />
+    <div className="flex flex-col justify-center">
+      <div className="my-4">
+        <DataTable bid={bid} ask={ask} />
+      </div>
 
-      <div className="mt-8 flex flex-row justify-around">
+      <div className="my-4 flex flex-col sm:flex-col md:flex-row lg:flex-row justify-evenly">
         <OrderForm side="Buy" handleOrder={handleOrder} />
         <OrderForm side="Sell" handleOrder={handleOrder} />
       </div>

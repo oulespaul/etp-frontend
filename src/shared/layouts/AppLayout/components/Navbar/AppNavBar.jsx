@@ -10,14 +10,14 @@ function classNames(...classes) {
 
 export default function AppNavBar() {
   return (
-    <Disclosure as="nav" className="bg-white border-b-4 border-orange-200">
+    <Disclosure as="nav" className="bg-[#212829] border-b-4 border-[#30B34A]">
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         <div className="relative flex items-center justify-between h-16">
-          <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
+          <div className="flex-1 flex items-center justify-start sm:items-stretch sm:justify-start">
             <div className="flex-shrink-0 flex items-center">
               <img
-                className="h-14 w-auto"
-                src="https://freepikpsd.com/file/2019/10/energy-png.png"
+                className="h-14 w-auto p-1"
+                src="https://logodix.com/logo/343812.png"
                 alt="Workflow"
               />
             </div>

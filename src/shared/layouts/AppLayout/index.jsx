@@ -3,13 +3,13 @@ import { AppNavBar } from './components/Navbar';
 
 function AppLayout({ children }) {
   return (
-    <>
+    <div className="bg-[#2f3534]">
       <AppNavBar />
 
-      <main>
-        <div className="container mx-auto px-40">{children}</div>
+      <main className="flex justify-center">
+        <div className="container">{children}</div>
       </main>
-    </>
+    </div>
   );
 }
 
