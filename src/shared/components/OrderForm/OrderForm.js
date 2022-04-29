@@ -8,7 +8,7 @@ const orderDetailInital = {
 };
 
 export default function OrderForm({ side, handleOrder, order }) {
-  const [orderType] = useState("limit");
+  const [orderType] = useState('limit');
   const [orderDetail, setOrderDetail] = useState(orderDetailInital);
 
   useEffect(() => {
@@ -24,8 +24,22 @@ export default function OrderForm({ side, handleOrder, order }) {
   };
 
   const handleSubmit = () => {
-    if (orderDetail.price % 0.50 !== 0) {
-      toast.error('Range of price is not 0.50', {
+    if (orderDetail.price % 0.25 !== 0) {
+      toast.error('Range of price is not 0.25', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+
+      return;
+    }
+
+    if (orderDetail.quantity % 0.5 !== 0) {
+      toast.error('Range of amount is not 0.50', {
         position: 'top-right',
         autoClose: 5000,
         hideProgressBar: false,
@@ -62,8 +76,8 @@ export default function OrderForm({ side, handleOrder, order }) {
                     name="price"
                     onChange={handleOnchange}
                     value={orderDetail.price}
-                    placeholder="range of price is 0.50"
-                    step="0.50"
+                    placeholder="range of price is 0.25"
+                    step="0.25"
                     disabled={orderType === 'market'}
                     className="rounded-none rounded-l-lg bg-gray-50 border text-gray-900 focus:ring-gray-500 focus:border-gray-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
                   />
@@ -76,15 +90,17 @@ export default function OrderForm({ side, handleOrder, order }) {
               <div className="col-span-6 w-full">
                 <div className="flex">
                   <input
-                    type="text"
+                    type="number"
                     id="website-admin"
                     name="quantity"
                     onChange={handleOnchange}
                     value={orderDetail.quantity}
+                    placeholder="range of amount is 0.50"
+                    step="0.50"
                     className="rounded-none rounded-l-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-gray-500 focus:border-gray-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
                   />
                   <span className="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 rounded-r-md border border-l-0 border-gray-300">
-                    Amount
+                    kWh
                   </span>
                 </div>
               </div>

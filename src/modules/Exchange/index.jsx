@@ -5,6 +5,7 @@ import useSocket from 'shared/hooks/useSocket';
 
 const Exchange = () => {
   const { messages: orderbooks, sendMessage } = useSocket('orderBooks');
+  const username = window.localStorage.getItem('username');
 
   useEffect(() => {
     sendMessage('getOrderbook', {});
@@ -28,14 +29,14 @@ const Exchange = () => {
     console.log('orderDetail: ', {
       side,
       orderType,
-      accountNo: 999,
+      accountNo: username,
       ...order,
     });
 
     sendMessage('sendOrder', {
       side,
       orderType,
-      accountNo: 999,
+      accountNo: username,
       ...order,
     });
   };
