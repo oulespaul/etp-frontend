@@ -1,24 +1,44 @@
-import { useState } from 'react';
-import OrderTypeDropDown from './OrderTypeDropDown';
+import { useEffect, useState } from 'react';
+// import OrderTypeDropDown from './OrderTypeDropDown';
+import { toast } from 'react-toastify';
 
 const orderDetailInital = {
   price: '',
-  amount: '',
+  quantity: '',
 };
 
-export default function OrderForm({ side, handleOrder }) {
-  const [, setOrderType] = useState();
+export default function OrderForm({ side, handleOrder, order }) {
+  const [orderType] = useState("limit");
   const [orderDetail, setOrderDetail] = useState(orderDetailInital);
+
+  useEffect(() => {
+    if (orderType === 'market') {
+      setOrderDetail({ ...orderDetail, price: order[0]?.price });
+    }
+  }, [order, orderDetail, orderType]);
 
   const handleOnchange = event => {
     const { name, value } = event.target;
-    if (value < 0) return;
 
-    setOrderDetail({ ...orderDetail, [name]: parseInt(value) });
+    setOrderDetail({ ...orderDetail, [name]: parseFloat(value) });
   };
 
   const handleSubmit = () => {
-    handleOrder(side, orderDetail);
+    if (orderDetail.price % 0.50 !== 0) {
+      toast.error('Range of price is not 0.50', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+
+      return;
+    }
+
+    handleOrder(side.toLowerCase(), orderDetail, orderType);
     setOrderDetail(orderDetailInital);
   };
 
@@ -32,7 +52,7 @@ export default function OrderForm({ side, handleOrder }) {
                 <div className="mb-4 flex justify-between">
                   <h5 className="mb-2 text-2xl font-bold tracking-tight text-white">{side}</h5>
 
-                  <OrderTypeDropDown handleOrderType={setOrderType} />
+                  {/* <OrderTypeDropDown handleOrderType={setOrderType} /> */}
                 </div>
 
                 <div className="flex">
@@ -42,6 +62,9 @@ export default function OrderForm({ side, handleOrder }) {
                     name="price"
                     onChange={handleOnchange}
                     value={orderDetail.price}
+                    placeholder="range of price is 0.50"
+                    step="0.50"
+                    disabled={orderType === 'market'}
                     className="rounded-none rounded-l-lg bg-gray-50 border text-gray-900 focus:ring-gray-500 focus:border-gray-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
                   />
                   <span className="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 rounded-r-md border border-l-0 border-gray-300">
@@ -55,9 +78,9 @@ export default function OrderForm({ side, handleOrder }) {
                   <input
                     type="text"
                     id="website-admin"
-                    name="amount"
+                    name="quantity"
                     onChange={handleOnchange}
-                    value={orderDetail.amount}
+                    value={orderDetail.quantity}
                     className="rounded-none rounded-l-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-gray-500 focus:border-gray-500 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
                   />
                   <span className="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 rounded-r-md border border-l-0 border-gray-300">

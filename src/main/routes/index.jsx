@@ -2,6 +2,8 @@ import React, { lazy } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, Route, withRouter, Switch, useLocation } from 'react-router-dom';
 import AppLayout from 'shared/layouts/AppLayout';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import PrivateRoute from './PrivateRoute';
 
@@ -31,6 +33,18 @@ const Routes = ({ isLoggedIn }) => {
         <Route exact path="/exchange" render={() => <Exchange />} />
         <PrivateRoute exact path="/dashboard" component={Dashboard} />
       </Switch>
+
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </AppLayout>
   );
 };

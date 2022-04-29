@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { ChevronDownIcon } from '@heroicons/react/solid';
 
@@ -6,12 +6,16 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-export default function Example() {
-  const [selected, setSelected] = useState('Limit');
+export default function OrderTypeDeopDown({ handleOrderType }) {
+  const [selected, setSelected] = useState('limit');
 
   const handleOnClick = type => {
     setSelected(type);
   };
+
+  useEffect(() => {
+    handleOrderType(selected);
+  }, [handleOrderType, selected]);
 
   return (
     <Menu as="div" className="relative inline-block text-left">
@@ -32,7 +36,7 @@ export default function Example() {
         leaveTo="transform opacity-0 scale-95">
         <Menu.Items className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
-            <Menu.Item onClick={() => handleOnClick('Limit')}>
+            <Menu.Item onClick={() => handleOnClick('limit')}>
               {({ active }) => (
                 <p
                   className={classNames(
@@ -44,7 +48,7 @@ export default function Example() {
               )}
             </Menu.Item>
 
-            <Menu.Item onClick={() => handleOnClick('Market')}>
+            <Menu.Item onClick={() => handleOnClick('market')}>
               {({ active }) => (
                 <p
                   className={classNames(

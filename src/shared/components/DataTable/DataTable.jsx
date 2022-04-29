@@ -41,10 +41,10 @@ export default function DataTable({ bid, ask }) {
               <tbody className="bg-[#3d4443]">
                 {new Array(5).fill(0).map((_, idx) => (
                   <tr key={idx}>
-                    <td className="px-6 py-4 text-right text-sm text-white">{orderbook.bid[idx]?.amount}</td>
+                    <td className="px-6 py-4 text-right text-sm text-white text-bg-[#c1e1e6]">{orderbook.bid[idx]?.qty}</td>
                     <td className="px-6 py-4 text-center text-sm text-green-500">{orderbook.bid[idx]?.price}</td>
                     <td className="px-6 py-4 text-center text-sm text-red-500">{orderbook.ask[idx]?.price}</td>
-                    <td className="px-6 py-4 text-left text-sm text-white">{orderbook.ask[idx]?.amount}</td>
+                    <td className="px-6 py-4 text-left text-sm text-white">{orderbook.ask[idx]?.qty}</td>
                   </tr>
                 ))}
               </tbody>

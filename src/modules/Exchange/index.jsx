@@ -1,65 +1,43 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { DataTable } from 'shared/components/DataTable';
 import { OrderForm } from 'shared/components/OrderForm';
+import useSocket from 'shared/hooks/useSocket';
 
 const Exchange = () => {
-  const [bid, setBid] = useState([
-    {
-      price: 20000,
-      amount: 10,
-    },
-    {
-      price: 21500,
-      amount: 15,
-    },
-  ]);
-  const [ask, setAsk] = useState([
-    {
-      price: 21000,
-      amount: 8,
-    },
-    {
-      price: 20500,
-      amount: 12,
-    },
-    {
-      price: 20700,
-      amount: 18,
-    },
-  ]);
+  const { messages: orderbooks, sendMessage } = useSocket('orderBooks');
 
-  const handleOrder = (side, order) => {
-    if (side === 'Buy') {
-      const isAlready = bid.find(b => b.price === order.price);
-      if (isAlready) {
-        const alreadyBid = bid.map(b => {
-          if (b.price === order.price) {
-            return { ...b, amount: b.amount + order.amount };
-          }
+  useEffect(() => {
+    sendMessage('getOrderbook', {});
+  }, []);
 
-          return b;
-        });
+  const bid = useMemo(() => {
+    return orderbooks
+      .filter(order => order.side === 'buy')
+      .sort((a, b) => b.price - a.price)
+      .slice(0, 5);
+  }, [orderbooks]);
 
-        return setBid(alreadyBid);
-      }
+  const ask = useMemo(() => {
+    return orderbooks
+      .filter(order => order.side === 'sell')
+      .sort((a, b) => a.price - b.price)
+      .slice(0, 5);
+  }, [orderbooks]);
 
-      return setBid([...bid, order]);
-    }
+  const handleOrder = (side, order, orderType) => {
+    console.log('orderDetail: ', {
+      side,
+      orderType,
+      accountNo: 999,
+      ...order,
+    });
 
-    const isAlready = ask.find(a => a.price === order.price);
-    if (isAlready) {
-      const alreadyAsk = ask.map(a => {
-        if (a.price === order.price) {
-          return { ...a, amount: a.amount + order.amount };
-        }
-
-        return a;
-      });
-
-      return setAsk(alreadyAsk);
-    }
-
-    return setAsk([...ask, order]);
+    sendMessage('sendOrder', {
+      side,
+      orderType,
+      accountNo: 999,
+      ...order,
+    });
   };
 
   return (
@@ -69,8 +47,8 @@ const Exchange = () => {
       </div>
 
       <div className="my-4 flex flex-col sm:flex-col md:flex-row lg:flex-row justify-evenly">
-        <OrderForm side="Buy" handleOrder={handleOrder} />
-        <OrderForm side="Sell" handleOrder={handleOrder} />
+        <OrderForm side="Buy" handleOrder={handleOrder} order={bid} />
+        <OrderForm side="Sell" handleOrder={handleOrder} order={ask} />
       </div>
     </div>
   );
