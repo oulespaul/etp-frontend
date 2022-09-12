@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 // import OrderTypeDropDown from './OrderTypeDropDown';
 import { toast } from 'react-toastify';
+import TimePicker from '../TimePicker/TimePicker';
+import dayjs from 'dayjs';
 
 const orderDetailInital = {
   price: '',
   quantity: '',
+  orderTime: dayjs(),
 };
 
 export default function OrderForm({ side, handleOrder, order }) {
@@ -56,6 +59,10 @@ export default function OrderForm({ side, handleOrder, order }) {
     setOrderDetail(orderDetailInital);
   };
 
+  const handleOnSelect = time => {
+    setOrderDetail({ ...orderDetail, orderTime: time });
+  };
+
   return (
     <div className="mt-10 sm:mt-0 shadow-lg">
       <div className="mt-5 md:mt-0 md:col-span-2">
@@ -102,6 +109,14 @@ export default function OrderForm({ side, handleOrder, order }) {
                   <span className="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 rounded-r-md border border-l-0 border-gray-300">
                     kWh
                   </span>
+                </div>
+              </div>
+
+              <div className="col-span-6 w-full">
+                <span className="inline-flex items-center text-lg text-white">Schedule Time</span>
+
+                <div className="flex">
+                  <TimePicker onSelect={handleOnSelect} />
                 </div>
               </div>
             </div>

@@ -2,14 +2,28 @@ import React, { useEffect, useMemo } from 'react';
 import { DataTable } from 'shared/components/DataTable';
 import { OrderForm } from 'shared/components/OrderForm';
 import useSocket from 'shared/hooks/useSocket';
+import dayjs from 'dayjs';
+import useInterval from 'shared/hooks/useInterval';
+import { useState } from 'react';
 
 const Exchange = () => {
+  const [startTime, setStartTime] = useState(dayjs().set('minute', 0).set('second', 0));
+  const [endTime, setEndTime] = useState(dayjs().set('minute', 59).set('second', 59));
   const { messages: orderbooks, sendMessage } = useSocket('orderBooks');
   const username = window.localStorage.getItem('username');
 
   useEffect(() => {
-    sendMessage('getOrderbook', {});
-  }, []);
+    sendMessage('getOrderbook', { startTime: startTime.toDate(), endTime: endTime.toDate() });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [startTime.format('HH:mm:ss'), endTime.format('HH:mm:ss')]);
+
+  useInterval(() => {
+    const startTradeTime = dayjs().set('minute', 0).set('second', 0);
+    const endTradeTime = dayjs().set('minute', 59).set('second', 59);
+
+    setStartTime(startTradeTime);
+    setEndTime(endTradeTime);
+  }, 1000 * 3);
 
   const bid = useMemo(() => {
     return orderbooks
@@ -43,7 +57,13 @@ const Exchange = () => {
 
   return (
     <div className="flex flex-col justify-center">
-      <div className="my-4">
+      <div className="flex flex-end justify-end">
+        <h6 className="my-4 text-lg font-bold tracking-tight text-white">
+          Trade time: {startTime.format('HH:mm:ss')} - {endTime.format('HH:mm:ss')}
+        </h6>
+      </div>
+
+      <div className="my-2">
         <DataTable bid={bid} ask={ask} />
       </div>
 
