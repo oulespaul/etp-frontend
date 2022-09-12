@@ -1,1 +1,1 @@
-export { default as OrderTable } from './OrderTable';
+export { default as OrderTable } from './OrderTable.jsx';

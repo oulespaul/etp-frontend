@@ -1,8 +1,10 @@
 import Axios from 'axios';
 import { cloneDeep } from 'lodash';
 
+const baseUrl = process.env.REACT_APP_BE_URL;
+
 const axiosInstance = Axios.create({
-  baseURL: 'http://localhost:3000',
+  baseURL: baseUrl,
   headers: {
     'Content-Type': 'application/json',
   },
