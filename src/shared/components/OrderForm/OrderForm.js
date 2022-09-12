@@ -13,6 +13,7 @@ const orderDetailInital = {
 export default function OrderForm({ side, handleOrder, order }) {
   const [orderType] = useState('limit');
   const [orderDetail, setOrderDetail] = useState(orderDetailInital);
+  const [isClearTimePicker, setIsClearTimePicker] = useState(false);
 
   useEffect(() => {
     if (orderType === 'market') {
@@ -27,22 +28,21 @@ export default function OrderForm({ side, handleOrder, order }) {
   };
 
   const handleSubmit = () => {
+    let errorMessage = '';
+    if (orderDetail.price === '') {
+      errorMessage = 'Price is required';
+    }
+    if (orderDetail.quantity === '') {
+      errorMessage = 'Volume is required';
+    }
     if (orderDetail.price % 0.25 !== 0) {
-      toast.error('Range of price is not 0.25', {
-        position: 'top-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      });
-
-      return;
+      errorMessage = 'Range of price is not 0.25';
     }
-
     if (orderDetail.quantity % 0.5 !== 0) {
-      toast.error('Range of amount is not 0.50', {
+      errorMessage = 'Range of amount is not 0.50';
+    }
+    if (errorMessage !== '') {
+      toast.error(errorMessage, {
         position: 'top-right',
         autoClose: 5000,
         hideProgressBar: false,
@@ -51,12 +51,11 @@ export default function OrderForm({ side, handleOrder, order }) {
         draggable: true,
         progress: undefined,
       });
-
       return;
     }
-
     handleOrder(side.toLowerCase(), orderDetail, orderType);
     setOrderDetail(orderDetailInital);
+    setIsClearTimePicker(true);
   };
 
   const handleOnSelect = time => {
@@ -116,7 +115,7 @@ export default function OrderForm({ side, handleOrder, order }) {
                 <span className="inline-flex items-center text-lg text-white">Schedule Time</span>
 
                 <div className="flex">
-                  <TimePicker onSelect={handleOnSelect} />
+                  <TimePicker onSelect={handleOnSelect} isClear={isClearTimePicker} />
                 </div>
               </div>
             </div>

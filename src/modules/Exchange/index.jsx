@@ -58,9 +58,11 @@ const Exchange = () => {
   return (
     <div className="flex flex-col justify-center">
       <div className="flex flex-end justify-end">
-        <h6 className="my-4 text-lg font-bold tracking-tight text-white">
-          Trade time: {startTime.format('HH:mm:ss')} - {endTime.format('HH:mm:ss')}
-        </h6>
+        <span class="bg-gray-100 text-gray-800 text-xs font-semibold my-2 px-2.5 rounded dark:bg-gray-700 dark:text-gray-300">
+          <h6 className="my-2 text-lg font-bold tracking-tight text-white">
+            Trade time: {startTime.format('HH:mm:ss')} - {endTime.format('HH:mm:ss')}
+          </h6>
+        </span>
       </div>
 
       <div className="my-2">

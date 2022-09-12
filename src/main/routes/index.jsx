@@ -11,6 +11,7 @@ import PrivateRoute from './PrivateRoute';
 const Dashboard = lazy(() => import('modules/Dashboard'));
 const Exchange = lazy(() => import('modules/Exchange'));
 const Login = lazy(() => import('modules/Login'));
+const OpenOrder = lazy(() => import('modules/OpenOrder'));
 
 const Routes = ({ isLoggedIn }) => {
   const location = useLocation();
@@ -34,6 +35,9 @@ const Routes = ({ isLoggedIn }) => {
 
       <AppLayout>
         <Route exact path="/exchange" render={() => <Exchange />} />
+
+        <Route exact path="/open-order" component={OpenOrder} />
+
         <PrivateRoute exact path="/dashboard" component={Dashboard} />
 
         <ToastContainer
