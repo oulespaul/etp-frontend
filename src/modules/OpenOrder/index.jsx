@@ -55,7 +55,7 @@ const OpenOrder = () => {
         <h6 className="my-4 text-xl font-bold tracking-tight text-white">Open Order</h6>
       </div>
 
-      <div className="px-32 flex flex-end justify-center">
+      <div className="px-16 flex flex-end justify-center h-10">
         <OrderTable data={openOrders} onCancel={handleOnCancel} />
       </div>
     </div>
