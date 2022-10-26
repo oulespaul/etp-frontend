@@ -7,27 +7,27 @@ export default function OrderTable({ data, onCancel }) {
       {data.length > 0 ? (
         <>
           {/* Header */}
-          <div class="flex items-center px-5 py-2">
-            <span class="w-1/4 text-center">
-              <span class="text-xs uppercase text-white font-bold">Order Time</span>
+          <div className="flex items-center px-5 py-2">
+            <span className="w-1/4 text-center">
+              <span className="text-xs uppercase text-white font-bold">Order Time</span>
             </span>
-            <span class="w-1/4 text-center">
-              <span class="text-xs uppercase text-white font-bold">Side</span>
+            <span className="w-1/4 text-center">
+              <span className="text-xs uppercase text-white font-bold">Side</span>
             </span>
-            <span class="w-1/4 text-center">
-              <span class="text-xs uppercase text-white font-bold">Price</span>
+            <span className="w-1/4 text-center">
+              <span className="text-xs uppercase text-white font-bold">Price</span>
             </span>
-            <span class="w-1/4 text-center">
-              <span class="text-xs uppercase text-white font-bold">Volume</span>
+            <span className="w-1/4 text-center">
+              <span className="text-xs uppercase text-white font-bold">Volume</span>
             </span>
-            <span class="w-1/4 text-center">
-              <span class="text-xs uppercase text-white font-bold">Remaining Volume</span>
+            <span className="w-1/4 text-center">
+              <span className="text-xs uppercase text-white font-bold">Remaining Volume</span>
             </span>
-            <span class="w-1/4 text-center">
-              <span class="text-xs uppercase text-white font-bold">Status</span>
+            <span className="w-1/4 text-center">
+              <span className="text-xs uppercase text-white font-bold">Status</span>
             </span>
-            <span class="w-1/4">
-              <span class="text-xs uppercase text-white font-bold"></span>
+            <span className="w-1/4">
+              <span className="text-xs uppercase text-white font-bold"></span>
             </span>
           </div>
 

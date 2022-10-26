@@ -29,12 +29,12 @@ export default function TimePicker({ onSelect, isClear }) {
           name="hours"
           className="bg-transparent text-base appearance-none outline-none"
           onChange={handleOnChange}>
-          <option value={null} selected={selected === null}>
+          <option value={null} defaultValue={selected === null}>
             Current Time
           </option>
 
           {timeOptions.map(item => (
-            <option key={item.id} value={item.time} selected={item.time === selected}>
+            <option key={item.id} value={item.time} defaultValue={item.time === selected}>
               {item.time.format('DD/MM/YYYY HH:mm:ss')}
             </option>
           ))}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Fragment } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
+import useAuth from 'shared/hooks/useAuth';
 
 const navigation = [{ name: 'Exchange', href: 'exchange', current: true }];
 
@@ -8,9 +9,9 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-const username = window.localStorage.getItem('username');
-
 export default function AppNavBar() {
+  const user = useAuth();
+
   return (
     <Disclosure as="nav" className="bg-[#212829] border-b-4 border-[#30B34A]">
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -38,14 +39,14 @@ export default function AppNavBar() {
             </div>
           </div>
 
-          {username ? (
+          {user.clientId ? (
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               {/* Profile dropdown */}
               <Menu as="div" className="ml-3 relative">
                 <div>
                   <Menu.Button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white items-center">
                     <span className="sr-only">Open user menu</span>
-                    <span className="items-center px-3 text-md text-white ">{username}</span>
+                    <span className="items-center px-3 text-md text-white ">{user.clientId}</span>
 
                     <img
                       className="h-8 w-8 rounded-full"
@@ -74,7 +75,7 @@ export default function AppNavBar() {
                       )}
                     </Menu.Item>
 
-                    <Menu.Item onClick={() => window.localStorage.removeItem('username')}>
+                    <Menu.Item onClick={() => window.localStorage.removeItem('user.clientId')}>
                       {({ active }) => (
                         <a
                           href="/login"

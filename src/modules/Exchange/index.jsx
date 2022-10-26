@@ -5,15 +5,17 @@ import useSocket from 'shared/hooks/useSocket';
 import dayjs from 'dayjs';
 import useInterval from 'shared/hooks/useInterval';
 import { useState } from 'react';
+import useAuth from 'shared/hooks/useAuth';
 
 const Exchange = () => {
   const [startTime, setStartTime] = useState(dayjs().set('minute', 0).set('second', 0));
   const [endTime, setEndTime] = useState(dayjs().set('minute', 59).set('second', 59));
   const { messages: orderbooks, sendMessage } = useSocket('orderBooks');
-  const username = window.localStorage.getItem('username');
+  const username = useAuth();
 
   useEffect(() => {
     sendMessage('getOrderbook', { startTime: startTime.toDate(), endTime: endTime.toDate() });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startTime.format('HH:mm:ss'), endTime.format('HH:mm:ss')]);
 
@@ -43,14 +45,14 @@ const Exchange = () => {
     console.log('orderDetail: ', {
       side,
       orderType,
-      accountNo: username,
+      accountNo: username.clientId,
       ...order,
     });
 
     sendMessage('sendOrder', {
       side,
       orderType,
-      accountNo: username,
+      accountNo: username.clientId,
       ...order,
     });
   };
@@ -58,7 +60,7 @@ const Exchange = () => {
   return (
     <div className="flex flex-col justify-center">
       <div className="flex flex-end justify-end">
-        <span class="bg-gray-100 text-gray-800 text-xs font-semibold my-2 px-2.5 rounded dark:bg-gray-700 dark:text-gray-300">
+        <span className="bg-gray-100 text-gray-800 text-xs font-semibold my-2 px-2.5 rounded dark:bg-gray-700 dark:text-gray-300">
           <h6 className="my-2 text-lg font-bold tracking-tight text-white">
             Trade time: {startTime.format('HH:mm:ss')} - {endTime.format('HH:mm:ss')}
           </h6>
