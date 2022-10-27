@@ -2,6 +2,7 @@ import React from 'react';
 import { Fragment } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import useAuth from 'shared/hooks/useAuth';
+import useQuery from 'shared/hooks/useQuery';
 
 const navigation = [{ name: 'Exchange', href: 'exchange', current: true }];
 
@@ -11,6 +12,9 @@ function classNames(...classes) {
 
 export default function AppNavBar() {
   const user = useAuth();
+  const query = useQuery();
+
+  const userKey = query.get('Authorization');
 
   return (
     <Disclosure as="nav" className="bg-[#212829] border-b-4 border-[#30B34A]">
@@ -75,7 +79,7 @@ export default function AppNavBar() {
                       )}
                     </Menu.Item>
 
-                    <Menu.Item onClick={() => window.localStorage.removeItem('user.clientId')}>
+                    <Menu.Item onClick={() => window.localStorage.removeItem('username')}>
                       {({ active }) => (
                         <a
                           href="/login"

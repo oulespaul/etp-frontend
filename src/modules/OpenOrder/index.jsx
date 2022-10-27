@@ -3,13 +3,14 @@ import { useState } from 'react';
 import { OrderTable } from 'shared/components/OrderTable';
 import axiosInstance from 'main/axios';
 import { toast } from 'react-toastify';
+import useAuth from 'shared/hooks/useAuth';
 
 const OpenOrder = () => {
   const [openOrders, setOpenOrders] = useState([]);
-  const username = window.localStorage.getItem('username');
+  const user = useAuth();
 
   const fetchOperOrder = async () => {
-    const orders = await axiosInstance.get(`/api/order/${username}`);
+    const orders = await axiosInstance.get(`/api/order/${user.clientId}`);
 
     setOpenOrders(orders.data);
   };

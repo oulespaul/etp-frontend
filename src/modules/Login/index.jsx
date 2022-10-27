@@ -1,10 +1,17 @@
+import { userMapping } from 'constants/user';
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const [username, setUsername] = useState();
 
   const handleOnSubmit = () => {
-    window.localStorage.setItem('username', username);
+    const user = userMapping.find(user => user.clientId === username);
+    if (user === undefined) {
+      return
+    }
+
+    window.localStorage.setItem('username', user.clientId);
     return window.location.replace('/exchange');
   };
 
