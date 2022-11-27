@@ -59,7 +59,7 @@ const Exchange = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center h-screen">
+    <div>
       <div className="flex flex-end justify-end">
         <span className="bg-gray-700 text-gray-300 text-xs font-semibold my-2 px-2.5 rounded dark:bg-gray-700 dark:text-gray-300">
           <h6 className="my-2 text-lg font-bold tracking-tight text-white">
@@ -68,17 +68,16 @@ const Exchange = () => {
         </span>
       </div>
 
-      <div className="mt-48">
-        <CandleStick />
-      </div>
+      <div className="grid grid-cols-3">
+        <div className="">
+          <DataTable bid={bid} ask={ask} />
+        </div>
 
-      <div className="my-2">
-        <DataTable bid={bid} ask={ask} />
-      </div>
+        <div className="col-span-2 mb-10">
+          <CandleStick />
 
-      <div className="my-4 flex flex-col sm:flex-col md:flex-row lg:flex-row justify-evenly">
-        <OrderForm side="Buy" handleOrder={handleOrder} order={bid} />
-        <OrderForm side="Sell" handleOrder={handleOrder} order={ask} />
+          <OrderForm handleOrder={handleOrder} />
+        </div>
       </div>
     </div>
   );

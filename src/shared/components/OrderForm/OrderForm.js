@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-// import OrderTypeDropDown from './OrderTypeDropDown';
+import { useState } from 'react';
+import OrderTypeDropDown from './OrderTypeDropDown';
 import { toast } from 'react-toastify';
 import TimePicker from '../TimePicker/TimePicker';
 import dayjs from 'dayjs';
@@ -10,16 +10,11 @@ const orderDetailInital = {
   orderTime: dayjs(),
 };
 
-export default function OrderForm({ side, handleOrder, order }) {
+export default function OrderForm({ handleOrder, order }) {
   const [orderType] = useState('limit');
   const [orderDetail, setOrderDetail] = useState(orderDetailInital);
   const [isClearTimePicker, setIsClearTimePicker] = useState(false);
-
-  useEffect(() => {
-    if (orderType === 'market') {
-      setOrderDetail({ ...orderDetail, price: order[0]?.price });
-    }
-  }, [order, orderDetail, orderType]);
+  const [side, setSide] = useState('buy');
 
   const handleOnchange = event => {
     const { name, value } = event.target;
@@ -63,16 +58,16 @@ export default function OrderForm({ side, handleOrder, order }) {
   };
 
   return (
-    <div className="mt-10 sm:mt-0 shadow-lg">
+    <div className="mt-10 sm:mt-10 shadow-lg">
       <div className="mt-5 md:mt-0 md:col-span-2">
-        <div className="p-6 max-w-md bg-[#3d4443] rounded-lg shadow-lg">
-          <div className="px-4 py-5 bg-[#3d4443] sm:p-6">
+        <div className="p-6 bg-[#3d4443] rounded-lg shadow-lg flex justify-around">
+          <div className=" py-5 bg-[#3d4443] sm:p-6 w-full">
             <div className="grid grid-cols-6 gap-6">
               <div className="col-span-6 w-full">
                 <div className="mb-4 flex justify-between">
-                  <h5 className="mb-2 text-2xl font-bold tracking-tight text-white">{side}</h5>
+                  <h5 className="mb-2 text-2xl font-bold tracking-tight text-white">Trade</h5>
 
-                  {/* <OrderTypeDropDown handleOrderType={setOrderType} /> */}
+                  <OrderTypeDropDown handleOrderType={setSide} />
                 </div>
 
                 <div className="flex">
@@ -110,18 +105,18 @@ export default function OrderForm({ side, handleOrder, order }) {
                   </span>
                 </div>
               </div>
-
-              <div className="col-span-6 w-full">
-                <span className="inline-flex items-center text-lg text-white">Schedule Time</span>
-
-                <div className="flex">
-                  <TimePicker onSelect={handleOnSelect} isClear={isClearTimePicker} />
-                </div>
-              </div>
             </div>
           </div>
 
-          <div className="px-4 py-3 bg-[#495352] text-right sm:px-6 rounded-lg">
+          <div className="py-3 bg-[#495352] text-right sm:px-6 rounded-lg">
+            <div className="col-span-6 w-full mb-4">
+              <span className="inline-flex items-center text-lg text-white">Schedule Time</span>
+
+              <div className="flex">
+                <TimePicker onSelect={handleOnSelect} isClear={isClearTimePicker} />
+              </div>
+            </div>
+
             <button
               className={`inline-flex justify-center py-2 px-4 border border-transparent 
                   shadow-sm text-sm font-medium rounded-md text-gray-500 
@@ -136,7 +131,7 @@ export default function OrderForm({ side, handleOrder, order }) {
               className={`inline-flex justify-center py-2 px-4 border border-transparent 
                   shadow-sm text-sm font-medium rounded-md text-white 
                   ${
-                    side === 'Buy' ? 'bg-green-400 hover:bg-green-500' : 'bg-red-400 hover:bg-red-500'
+                    side === 'buy' ? 'bg-green-400 hover:bg-green-500' : 'bg-red-400 hover:bg-red-500'
                   } focus:outline-none 
                   focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 w-full`}>
               {side}
