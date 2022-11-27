@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import useInterval from 'shared/hooks/useInterval';
 import { useState } from 'react';
 import useAuth from 'shared/hooks/useAuth';
+import { CandleStick } from 'shared/components/Chart';
 
 const Exchange = () => {
   const [startTime, setStartTime] = useState(dayjs().set('minute', 0).set('second', 0));
@@ -65,6 +66,10 @@ const Exchange = () => {
             Trade time: {startTime.format('HH:mm:ss')} - {endTime.format('HH:mm:ss')}
           </h6>
         </span>
+      </div>
+
+      <div className="mt-48">
+        <CandleStick />
       </div>
 
       <div className="my-2">
