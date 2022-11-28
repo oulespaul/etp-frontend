@@ -3,7 +3,7 @@ import { AppNavBar } from './components/Navbar';
 
 function AppLayout({ children }) {
   return (
-    <div className="bg-[#2f3534] min-h-full">
+    <div className="bg-[#2f3534] h-screen">
       <AppNavBar />
 
       <main className="flex justify-center overflow-scroll">
