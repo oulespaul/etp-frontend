@@ -2,12 +2,18 @@ import React, { useEffect } from 'react';
 import axiosInstance from 'main/axios';
 import useAuth from 'shared/hooks/useAuth';
 import FileSaver from 'file-saver';
+import { useState } from 'react';
 
 const Invoice = () => {
   const user = useAuth();
+  const [invoiceErr, setInvoiceErr] = useState(false);
 
   const fetchInvoice = async () => {
-    const invoice = await axiosInstance.get(`/api/trade/invoice/${user.clientId}`, { responseType: 'blob' });
+    const invoice = await axiosInstance
+      .get(`/api/trade/invoice/${user.clientId}`, { responseType: 'blob' })
+      .catch(e => {
+        setInvoiceErr(true);
+      });
     const file = new Blob([invoice.data], { type: 'application/pdf' });
     const fileUrl = window.URL.createObjectURL(file);
     const iframe = document.querySelector('iframe');
@@ -19,7 +25,12 @@ const Invoice = () => {
       responseType: 'blob',
     });
 
-    return FileSaver.saveAs(response.data, 'test.pdf');
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth();
+    const fileName = `${user.clientId}_${year}${month}.pdf`;
+
+    return FileSaver.saveAs(response.data, fileName);
   };
 
   useEffect(() => {
@@ -39,7 +50,13 @@ const Invoice = () => {
       </div>
 
       <div className="px-16 flex flex-end justify-center h-10">
-        <iframe title="invoice" src="#toolbar=0" width="100%" height="600px"></iframe>
+        {invoiceErr ? (
+          <div className="bg-white shadow flex p-8 items-center my-5 rounded-lg justify-center">
+            <h5 className="mb-2 text-xl font-bold tracking-tight text-red-400">Invoice Not found</h5>
+          </div>
+        ) : (
+          <iframe title="invoice" src="#toolbar=0" width="100%" height="600px"></iframe>
+        )}
       </div>
     </div>
   );
