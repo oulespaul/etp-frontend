@@ -55,7 +55,7 @@ const Invoice = () => {
             <h5 className="mb-2 text-xl font-bold tracking-tight text-red-400">Invoice Not found</h5>
           </div>
         ) : (
-          <iframe title="invoice" src="#toolbar=0" width="100%" height="600px"></iframe>
+          <iframe title="invoice" src="" width="100%" height="700px">Loading...</iframe>
         )}
       </div>
     </div>

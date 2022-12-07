@@ -59,9 +59,9 @@ const Exchange = () => {
   };
 
   return (
-    <div>
+    <div className="h-screen">
       <div className="flex flex-end justify-end">
-        <span className="bg-gray-700 text-gray-300 text-xs font-semibold my-2 px-2.5 rounded dark:bg-gray-700 dark:text-gray-300">
+        <span className="bg-gray-700 text-gray-300 text-xs font-semibold my-4 px-2.5 rounded dark:bg-gray-700 dark:text-gray-300">
           <h6 className="my-2 text-lg font-bold tracking-tight text-white">
             Trade time: {startTime.format('HH:mm:ss')} - {endTime.format('HH:mm:ss')}
           </h6>
