@@ -39,7 +39,7 @@ const Invoice = () => {
   }, []);
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen overflow-scroll">
       <div className="flex justify-between p-6">
         <h6 className="my-4 text-xl font-bold tracking-tight text-white">Invoice</h6>
         <button
@@ -49,13 +49,13 @@ const Invoice = () => {
         </button>
       </div>
 
-      <div className="px-16 flex flex-end justify-center h-10">
+      <div className="px-16 flex flex-end justify-center mb-12">
         {invoiceErr ? (
           <div className="bg-white shadow flex p-8 items-center my-5 rounded-lg justify-center">
             <h5 className="mb-2 text-xl font-bold tracking-tight text-red-400">Invoice Not found</h5>
           </div>
         ) : (
-          <iframe title="invoice" src="" width="100%" height="700px">Loading...</iframe>
+          <iframe title="invoice" src="" width="595px" height="842px">Loading...</iframe>
         )}
       </div>
     </div>
