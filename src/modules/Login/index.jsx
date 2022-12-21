@@ -1,6 +1,5 @@
 import { userMapping } from 'constants/user';
 import React, { useState } from 'react';
-import { toast } from 'react-toastify';
 
 const Login = () => {
   const [username, setUsername] = useState();
@@ -8,7 +7,7 @@ const Login = () => {
   const handleOnSubmit = () => {
     const user = userMapping.find(user => user.clientId === username);
     if (user === undefined) {
-      return
+      return;
     }
 
     window.localStorage.setItem('username', user.clientId);

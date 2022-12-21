@@ -7,12 +7,30 @@ import useInterval from 'shared/hooks/useInterval';
 import { useState } from 'react';
 import useAuth from 'shared/hooks/useAuth';
 import { CandleStick } from 'shared/components/Chart';
+import useQuery from 'shared/hooks/useQuery';
+import useAxios from 'shared/hooks/useAxios';
 
-const Exchange = () => {
+const Exchange = ({ setUser, history }) => {
   const [startTime, setStartTime] = useState(dayjs().set('minute', 0).set('second', 0));
   const [endTime, setEndTime] = useState(dayjs().set('minute', 59).set('second', 59));
   const { messages: orderbooks, sendMessage } = useSocket('orderBooks');
   const username = useAuth();
+  const query = useQuery();
+  const userKey = query.get('Authorization');
+  const [user] = useAxios({
+    url: `/user/login`,
+    method: 'POST',
+    data: { key: userKey },
+  });
+
+  useEffect(() => {
+    if (user) {
+      return setUser(user);
+    }
+
+    return history.push('/');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   useEffect(() => {
     sendMessage('getOrderbook', { startTime: startTime.toDate(), endTime: endTime.toDate() });

@@ -4,21 +4,21 @@ import { OrderTable } from 'shared/components/OrderTable';
 import axiosInstance from 'main/axios';
 import { toast } from 'react-toastify';
 import useAuth from 'shared/hooks/useAuth';
+import useAxios from 'shared/hooks/useAxios';
 
 const OpenOrder = () => {
   const [openOrders, setOpenOrders] = useState([]);
   const user = useAuth();
-
-  const fetchOperOrder = async () => {
-    const orders = await axiosInstance.get(`/api/order/${user.clientId}`);
-
-    setOpenOrders(orders.data);
-  };
+  const [orders, , , fetchOrders] = useAxios({
+    url: `/order/${user.clientId}`,
+    method: 'GET',
+  });
 
   useEffect(() => {
-    fetchOperOrder();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    if (orders) {
+      setOpenOrders(orders);
+    }
+  }, [orders]);
 
   const handleOnCancel = async order => {
     try {
@@ -35,7 +35,7 @@ const OpenOrder = () => {
           progress: undefined,
         });
 
-        fetchOperOrder();
+        fetchOrders();
       }
     } catch (error) {
       toast.error('Cancel order failed', {

@@ -6,6 +6,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import PrivateRoute from './PrivateRoute';
+import { setAuth } from 'library/common/actions/AuthActions';
 
 // const Home = lazy(() => import('modules/Home'));
 const Dashboard = lazy(() => import('modules/Dashboard'));
@@ -14,7 +15,7 @@ const Login = lazy(() => import('modules/Login'));
 const OpenOrder = lazy(() => import('modules/OpenOrder'));
 const Invoice = lazy(() => import('modules/Invoice'));
 
-const Routes = ({ isLoggedIn }) => {
+const Routes = props => {
   const location = useLocation();
   const { from } = location.state || { from: { pathname: '/bookings' } };
 
@@ -24,7 +25,7 @@ const Routes = ({ isLoggedIn }) => {
         exact
         path="/"
         render={() => {
-          if (isLoggedIn && from) {
+          if (props.isLoggedIn && from) {
             return <Redirect to={from} />;
           } else {
             return <Redirect to={{ pathname: '/login' }} />;
@@ -35,7 +36,7 @@ const Routes = ({ isLoggedIn }) => {
       <Route exact path="/login" render={() => <Login />} />
 
       <AppLayout>
-        <Route exact path="/exchange" render={() => <Exchange />} />
+        <Route exact path="/exchange" render={() => <Exchange {...props} />} />
 
         <Route exact path="/open-order" component={OpenOrder} />
 
@@ -62,7 +63,16 @@ const Routes = ({ isLoggedIn }) => {
 const mapStateToProps = ({ authReducer }) => {
   return {
     isLoggedIn: authReducer.isLoggedIn,
+    user: authReducer.user,
   };
 };
 
-export default withRouter(connect(mapStateToProps)(Routes));
+const mapDispatchToProps = dispatch => {
+  return {
+    setUser: user => {
+      dispatch(setAuth(user));
+    },
+  };
+};
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Routes));
