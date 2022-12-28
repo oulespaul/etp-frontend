@@ -1,6 +1,6 @@
 import React, { lazy } from 'react';
 import { connect } from 'react-redux';
-import { Route, withRouter, Switch } from 'react-router-dom';
+import { Route, withRouter, Switch, Redirect } from 'react-router-dom';
 import AppLayout from 'shared/layouts/AppLayout';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -16,6 +16,14 @@ const Invoice = lazy(() => import('modules/Invoice'));
 const Routes = props => {
   return (
     <Switch>
+      <Route
+        exact
+        path="/"
+        render={() => {
+          return <Redirect to={{ pathname: '/exchange' }} />;
+        }}
+      />
+
       <Route exact path="/exchange" render={() => <Login {...props} />} />
 
       <AppLayout>
