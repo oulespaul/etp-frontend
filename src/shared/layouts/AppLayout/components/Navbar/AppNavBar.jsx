@@ -1,17 +1,14 @@
 import React from 'react';
 import { Fragment } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
-import useAuth from 'shared/hooks/useAuth';
 
-const navigation = [{ name: 'Exchange', href: 'exchange', current: true }];
+const navigation = [{ name: 'Exchange', href: 'exchanges', current: true }];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-export default function AppNavBar() {
-  const user = useAuth();
-
+export default function AppNavBar({ user }) {
   return (
     <Disclosure as="nav" className="bg-[#212829] border-b-4 border-[#30B34A]">
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
@@ -39,7 +36,7 @@ export default function AppNavBar() {
             </div>
           </div>
 
-          {user.clientId ? (
+          {user ? (
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
               {/* Profile dropdown */}
               <Menu as="div" className="ml-3 relative">
@@ -85,10 +82,10 @@ export default function AppNavBar() {
                       )}
                     </Menu.Item>
 
-                    <Menu.Item onClick={() => window.localStorage.removeItem('username')}>
+                    <Menu.Item onClick={() => window.localStorage.removeItem('APP_STATE')}>
                       {({ active }) => (
                         <a
-                          href="/login"
+                          href="/exchange"
                           className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}>
                           Logout
                         </a>

@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react';
 import axiosInstance from 'main/axios';
-import useAuth from 'shared/hooks/useAuth';
 import FileSaver from 'file-saver';
 import { useState } from 'react';
 
-const Invoice = () => {
-  const user = useAuth();
+const Invoice = ({ user }) => {
   const [invoiceErr, setInvoiceErr] = useState(false);
 
   const fetchInvoice = async () => {
@@ -55,7 +53,9 @@ const Invoice = () => {
             <h5 className="mb-2 text-xl font-bold tracking-tight text-red-400">Invoice Not found</h5>
           </div>
         ) : (
-          <iframe title="invoice" src="" width="595px" height="842px">Loading...</iframe>
+          <iframe title="invoice" src="" width="595px" height="842px">
+            Loading...
+          </iframe>
         )}
       </div>
     </div>

@@ -1,8 +1,27 @@
 import { userMapping } from 'constants/user';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import useAxios from 'shared/hooks/useAxios';
+import useQuery from 'shared/hooks/useQuery';
 
-const Login = () => {
+const Login = ({ setUser, history }) => {
   const [username, setUsername] = useState();
+  const query = useQuery();
+  const userKey = query.get('Authorization');
+  const [userInfo] = useAxios({
+    url: `/user/login`,
+    method: 'POST',
+    data: { key: userKey },
+  });
+
+  useEffect(() => {
+    if (userInfo) {
+      setUser(userInfo);
+      return history.push('/exchanges');
+    }
+
+    // return history.push('/');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userInfo]);
 
   const handleOnSubmit = () => {
     const user = userMapping.find(user => user.clientId === username);

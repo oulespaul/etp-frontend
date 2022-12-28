@@ -1,6 +1,6 @@
 import React, { lazy } from 'react';
 import { connect } from 'react-redux';
-import { Redirect, Route, withRouter, Switch, useLocation } from 'react-router-dom';
+import { Route, withRouter, Switch } from 'react-router-dom';
 import AppLayout from 'shared/layouts/AppLayout';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -8,41 +8,22 @@ import 'react-toastify/dist/ReactToastify.css';
 import PrivateRoute from './PrivateRoute';
 import { setAuth } from 'library/common/actions/AuthActions';
 
-// const Home = lazy(() => import('modules/Home'));
-const Dashboard = lazy(() => import('modules/Dashboard'));
 const Exchange = lazy(() => import('modules/Exchange'));
 const Login = lazy(() => import('modules/Login'));
 const OpenOrder = lazy(() => import('modules/OpenOrder'));
 const Invoice = lazy(() => import('modules/Invoice'));
 
 const Routes = props => {
-  const location = useLocation();
-  const { from } = location.state || { from: { pathname: '/bookings' } };
-
   return (
     <Switch>
-      <Route
-        exact
-        path="/"
-        render={() => {
-          if (props.isLoggedIn && from) {
-            return <Redirect to={from} />;
-          } else {
-            return <Redirect to={{ pathname: '/login' }} />;
-          }
-        }}
-      />
-
-      <Route exact path="/login" render={() => <Login />} />
+      <Route exact path="/exchange" render={() => <Login {...props} />} />
 
       <AppLayout>
-        <Route exact path="/exchange" render={() => <Exchange {...props} />} />
+        <PrivateRoute exact path="/exchanges" component={Exchange} {...props} />
 
-        <Route exact path="/open-order" component={OpenOrder} />
+        <PrivateRoute exact path="/open-order" component={OpenOrder} {...props} />
 
-        <Route exact path="/invoice" component={Invoice} />
-
-        <PrivateRoute exact path="/dashboard" component={Dashboard} />
+        <PrivateRoute exact path="/invoice" component={Invoice} {...props} />
 
         <ToastContainer
           position="top-right"

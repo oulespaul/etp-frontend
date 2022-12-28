@@ -1,15 +1,15 @@
 import React from 'react';
 import { Route, Redirect, withRouter } from 'react-router-dom';
 
-const PrivateRoute = withRouter(({ component: Component, isLoggedIn, ...rest }) => {
+const PrivateRoute = withRouter(({ component: Component, ...rest }) => {
   const componentCheck = props => {
-    if (isLoggedIn) {
-      return <Component {...props} />;
+    if (rest.isLoggedIn) {
+      return <Component {...props} {...rest} />;
     } else {
       return (
         <Redirect
           to={{
-            pathname: '/',
+            pathname: '/exchange',
             state: { from: props.location },
           }}
         />

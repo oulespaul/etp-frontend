@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppNavBar } from './components/Navbar';
+import AppNavBar from './components/Navbar';
 
 function AppLayout({ children }) {
   return (

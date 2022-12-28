@@ -3,12 +3,10 @@ import { useState } from 'react';
 import { OrderTable } from 'shared/components/OrderTable';
 import axiosInstance from 'main/axios';
 import { toast } from 'react-toastify';
-import useAuth from 'shared/hooks/useAuth';
 import useAxios from 'shared/hooks/useAxios';
 
-const OpenOrder = () => {
+const OpenOrder = ({ user }) => {
   const [openOrders, setOpenOrders] = useState([]);
-  const user = useAuth();
   const [orders, , , fetchOrders] = useAxios({
     url: `/order/${user.clientId}`,
     method: 'GET',
