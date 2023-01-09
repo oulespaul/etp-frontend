@@ -48,24 +48,24 @@ const CandleStick = () => {
         <div className="inline-flex rounded-md shadow-sm">
           <button
             type="button"
-            className={`px-4 py-2 text-sm font-medium text-gray-300 bg-transparent border border-gray-300 rounded-l-lg hover:bg-gray-500 hover:text-white ${
-              timeframe === 'hour' && activeTimeframeStyle
+            className={`px-4 py-2 text-sm font-medium border border-gray-300 rounded-l-lg hover:bg-gray-500 hover:text-white ${
+              timeframe === 'hour' ? activeTimeframeStyle : 'text-gray-300 bg-transparent'
             }`}
             onClick={() => setTimeframe('hour')}>
             H
           </button>
           <button
             type="button"
-            className={`px-4 py-2 text-sm font-medium text-gray-300 bg-transparent border-t border-b border-gray-300 hover:bg-gray-500 hover:text-white ${
-              timeframe === 'day' && activeTimeframeStyle
+            className={`px-4 py-2 text-sm font-medium border-t border-b border-gray-300 hover:bg-gray-500 hover:text-white ${
+              timeframe === 'day' ? activeTimeframeStyle : 'text-gray-300 bg-transparent'
             }`}
             onClick={() => setTimeframe('day')}>
             D
           </button>
           <button
             type="button"
-            className={`px-4 py-2 text-sm font-medium text-gray-300 bg-transparent border border-gray-300 rounded-r-md hover:bg-gray-500 hover:text-white ${
-              timeframe === 'month' && activeTimeframeStyle
+            className={`px-4 py-2 text-sm font-medium border border-gray-300 rounded-r-md hover:bg-gray-500 hover:text-white ${
+              timeframe === 'month' ? activeTimeframeStyle : 'text-gray-300 bg-transparent'
             }`}
             onClick={() => setTimeframe('month')}>
             M
