@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import OrderTypeDropDown from './OrderTypeDropDown';
 import { toast } from 'react-toastify';
 import TimePicker from '../TimePicker/TimePicker';
@@ -13,8 +13,8 @@ const orderDetailInital = {
 export default function OrderForm({ handleOrder, order }) {
   const [orderType] = useState('limit');
   const [orderDetail, setOrderDetail] = useState(orderDetailInital);
-  const [isClearTimePicker, setIsClearTimePicker] = useState(false);
   const [side, setSide] = useState('buy');
+  const timePickerRef = useRef();
 
   const handleOnchange = event => {
     const { name, value } = event.target;
@@ -50,11 +50,15 @@ export default function OrderForm({ handleOrder, order }) {
     }
     handleOrder(side.toLowerCase(), orderDetail, orderType);
     setOrderDetail(orderDetailInital);
-    setIsClearTimePicker(true);
   };
 
   const handleOnSelect = time => {
     setOrderDetail({ ...orderDetail, orderTime: time });
+  };
+
+  const handleOnClear = () => {
+    setOrderDetail(orderDetailInital);
+    timePickerRef.current.reset();
   };
 
   return (
@@ -113,7 +117,7 @@ export default function OrderForm({ handleOrder, order }) {
               <span className="inline-flex items-center text-lg text-white">Schedule Time</span>
 
               <div className="flex">
-                <TimePicker onSelect={handleOnSelect} isClear={isClearTimePicker} />
+                <TimePicker onSelect={handleOnSelect} ref={timePickerRef} />
               </div>
             </div>
 
@@ -122,7 +126,7 @@ export default function OrderForm({ handleOrder, order }) {
                   shadow-sm text-sm font-medium rounded-md text-gray-500 
                   bg-gray-300 hover:bg-gray-400 focus:outline-none 
                   focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 w-full mb-4`}
-              onClick={() => setOrderDetail(orderDetailInital)}>
+              onClick={handleOnClear}>
               Clear
             </button>
 
