@@ -13,7 +13,7 @@ const Exchange = ({ user }) => {
   const { messages: orderbooks, sendMessage } = useSocket('orderBooks');
 
   useEffect(() => {
-    sendMessage('getOrderbook', { startTime: startTime.toDate(), endTime: endTime.toDate() });
+    sendMessage('getOrderbook', { startTime: startTime.toString(), endTime: endTime.toString() });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startTime.format('HH:mm:ss'), endTime.format('HH:mm:ss')]);
