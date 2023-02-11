@@ -50,6 +50,7 @@ export default function OrderForm({ handleOrder, order }) {
     }
     handleOrder(side.toLowerCase(), orderDetail, orderType);
     setOrderDetail(orderDetailInital);
+    timePickerRef.current.reset();
   };
 
   const handleOnSelect = time => {
